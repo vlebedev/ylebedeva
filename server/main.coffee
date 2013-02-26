@@ -6,27 +6,38 @@ Counters = new Meteor.Collection 'counters'
 Meteor.publish 'content', () ->
 
     if @userId
+        data        = []
+        minTS       = null
+        maxTS       = null
+        resultMax   = null
+        resultMin   = null
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
+        counters    = Counters.findOne({})
+        { minTS, maxTS } = counters if counters
 
-        counters = Counters.findOne({})
-        { minTS, maxTS } = counters
         console.log "from mongo -- minTS: #{minTS}, maxTS: #{maxTS}"
 
         if minTS && maxTS
             resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_timestamp={#maxTS}"
             resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?min_timestamp={#minTS}"
-            result = resultMax.concat resultMin
         else
             Counters.insert { minTS: '', maxTS: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
-        console.log result?.data?.data
+        if resultMax or resultMin
+            if resultMax.data?.data
+                data = resultMax.data.data
+            if resultMin.data?.data
+                data = data.concat resultMin.data.data
+        else
+            data = result?.data?.data
 
-        if result.data?.data
+        console.log data
+
+        if data
             existingCntIds = _.pluck Content.find({}).fetch(), 'id'
-            resultTimeStamps = _.pluck(result.data.data, 'created_time').sort((a,b) -> a-b)
+            resultTimeStamps = _.pluck(data, 'created_time').sort((a,b) -> a-b)
 
-            console.log result
             console.log "time stamps sorted -- resultTimeStamps: #{resultTimeStamps}"
 
             minTS = resultTimeStamps[resultTimeStamps.length-1]
