@@ -1,0 +1,25 @@
+{
+  "meteor": {
+    "git": "https://github.com/meteor/meteor.git",
+    "branch": "master",
+    "commit": "2d8b41a87cec884489ead138b5dfea31487363f3"
+  },
+  "dependencies": {
+    "basePackages": {
+      "sugar": {},
+      "accounts-instagram": {}
+    },
+    "packages": {
+      "sugar": {
+        "git": "https://github.com/bevanhunt/meteor-sugar.git",
+        "tag": "v0.0.9",
+        "commit": "751a4465e0a7d7e4e800e794ca1e6a449e15e63d"
+      },
+      "accounts-instagram": {
+        "git": "https://github.com/motro/meteor-accounts-instagram.git",
+        "tag": "v0.2.1",
+        "commit": "d3dec3addf7099454f1ff03a19a3dc3969615606"
+      }
+    }
+  }
+}
