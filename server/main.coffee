@@ -7,23 +7,31 @@ Meteor.publish 'content', () ->
 
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
-        maxId = Counters.findOne({})?.maxId
-        console.log "from counters -- maxId: #{maxId}"
-        if maxId
-            result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_id={#maxId}"
+
+        counters = Counters.findOne({})
+        { minTS, maxTS } = counters
+        console.log "from mongo -- minTS: #{minTS}, maxTS: #{maxTS}"
+
+        if minTS && maxTS
+            resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_timestamp={#maxTS}"
+            resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?min_timestamp={#minTS}"
+            result = resultMax.concat resultMin
         else
-            Counters.insert { maxId: '' }
+            Counters.insert { minTS: '', maxTS: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
-        cntIds = _.pluck(Content.find({}).fetch(), 'id')
-        console.log "data ids -- cntIds: #{cntIds}"
+        existingCntIds = _.pluck Content.find({}).fetch(), 'id'
+        resultTimeStamps = _.pluck(result, 'created_time').sort((a,b) -> a-b)
+        console.log "time stamps sorted -- resultTimeStamps: #{resultTimeStamps}"
 
-        maxId = cntIds.sort()[0]
-        console.log "from data -- maxId: #{maxId}"
-        Counters.update {}, { $set: {maxId: maxId } }
+        minTS = resultTimeStamps[resultTimeStamps.length-1]
+        maxTS = resultTimeStamps[0]
+
+        console.log "from data -- minTS: #{minTS}, maxTS: #{maxTS}"
+        Counters.update {}, { $set: {minTS: minTS, maxTS: maxTS } }
 
         result.data?.data.forEach (c) ->
-            if _.indexOf(cntIds, c.id) is -1
+            if _.indexOf(existingCntIds, c.id) is -1
                 try
                     Content.insert c
                 catch e
