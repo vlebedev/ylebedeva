@@ -1,5 +1,5 @@
 _.extend Template.thumbnail,
 
     thumbnailUrl: () ->
-        @thumbnail.url
+        @images.thumbnail.url
 

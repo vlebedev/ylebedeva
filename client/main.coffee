@@ -4,4 +4,4 @@ Meteor.autorun ()->
     Meteor.subscribe 'content'
 
 Meteor.startup ->
-    console.log "hello, world!"
+    Meteor.subscribe 'content'
