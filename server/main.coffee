@@ -1,15 +1,23 @@
 YLEBEDEVA_ID = '12698906'
 
 Content = new Meteor.Collection 'content'
+Counters = new Meteor.Collection 'counters'
 
 Meteor.publish 'content', () ->
 
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
-        result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
-        console.log result.data?.data
+        maxId = Counters.findOne({})?.maxId
+        if maxId
+            result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_id={#maxId}"
+        else
+            result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
         cntIds = _.pluck(Content.find({}).fetch(), 'id')
+
+        maxId = cntIds.sort()[0]
+        Counters.update {}, { $set: {maxId: maxId } }
+
         result.data?.data.forEach (c) ->
             if _.indexOf(cntIds, c.id) is -1
                 try
