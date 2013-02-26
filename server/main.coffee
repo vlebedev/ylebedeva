@@ -8,14 +8,17 @@ Meteor.publish 'content', () ->
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
         maxId = Counters.findOne({})?.maxId
+        console.log "from counters -- maxId: #{maxId}"
         if maxId
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_id={#maxId}"
         else
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
         cntIds = _.pluck(Content.find({}).fetch(), 'id')
+        console.log "data ids -- cntIds: #{cntIds}"
 
         maxId = cntIds.sort()[0]
+        console.log "from data -- maxId: #{maxId}"
         Counters.update {}, { $set: {maxId: maxId } }
 
         result.data?.data.forEach (c) ->
