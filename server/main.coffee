@@ -20,22 +20,27 @@ Meteor.publish 'content', () ->
             Counters.insert { minTS: '', maxTS: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
-        existingCntIds = _.pluck Content.find({}).fetch(), 'id'
-        resultTimeStamps = _.pluck(result, 'created_time').sort((a,b) -> a-b)
-        console.log "time stamps sorted -- resultTimeStamps: #{resultTimeStamps}"
+        console.log result?.data?.data
 
-        minTS = resultTimeStamps[resultTimeStamps.length-1]
-        maxTS = resultTimeStamps[0]
+        if result.data?.data
+            existingCntIds = _.pluck Content.find({}).fetch(), 'id'
+            resultTimeStamps = _.pluck(result.data.data, 'created_time').sort((a,b) -> a-b)
 
-        console.log "from data -- minTS: #{minTS}, maxTS: #{maxTS}"
-        Counters.update {}, { $set: {minTS: minTS, maxTS: maxTS } }
+            console.log result
+            console.log "time stamps sorted -- resultTimeStamps: #{resultTimeStamps}"
 
-        result.data?.data.forEach (c) ->
-            if _.indexOf(existingCntIds, c.id) is -1
-                try
-                    Content.insert c
-                catch e
-                    # do nothing
+            minTS = resultTimeStamps[resultTimeStamps.length-1]
+            maxTS = resultTimeStamps[0]
+
+            console.log "from data -- minTS: #{minTS}, maxTS: #{maxTS}"
+            Counters.update {}, { $set: {minTS: minTS, maxTS: maxTS } }
+
+            result.data.data.forEach (c) ->
+                if _.indexOf(existingCntIds, c.id) is -1
+                    try
+                        Content.insert c
+                    catch e
+                        # do nothing
 
     Content.find {}
 
