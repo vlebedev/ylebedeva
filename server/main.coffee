@@ -12,6 +12,7 @@ Meteor.publish 'content', () ->
         if maxId
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_id={#maxId}"
         else
+            Counters.insert { maxId: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
         cntIds = _.pluck(Content.find({}).fetch(), 'id')
