@@ -20,6 +20,10 @@ Meteor.publish 'content', () ->
         if minTS && maxTS
             resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_timestamp={#maxTS}"
             resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?min_timestamp={#minTS}"
+            console.log "================"
+            console.log resultMax?.data
+            console.log "================"
+            console.log resultMin?.data
         else
             Counters.insert { minTS: '', maxTS: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
