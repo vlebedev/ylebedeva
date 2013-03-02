@@ -4,7 +4,7 @@ YLEBEDEVA_ID = '12698906'
 ACCESS_TOKEN = '4695387.85184ee.a442ae2228dd494794aa5271e960b7ad'
 
 Content = new Meteor.Collection 'content'
-Counters = new Meteor.Collection 'counters'
+YLebedeva = new Meteor.Collection 'ylebedeva'
 
 insertData = (data) ->
     cnt = 0
@@ -23,7 +23,7 @@ insertData = (data) ->
 
 initializeContentCollection = (accessToken) ->
     Content.remove({})
-    count = insertData fetchAllMediaArray YLEBEDEVA_ID, accessToken
+    count = insertData igmFetchAllMediaArray YLEBEDEVA_ID, accessToken
     console.log "INFO::INIT CONTENT: documents inserted: #{count}"
 
 updateContentCollection = (accessToken) ->
@@ -31,7 +31,7 @@ updateContentCollection = (accessToken) ->
     count = 0
     if tm - LAST_UPDATE >= (1000*60*5)
         min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
-        count = insertData fetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
+        count = insertData igmFetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
         console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
         LAST_UPDATE = tm
     return count
@@ -46,6 +46,10 @@ Meteor.publish 'content', () ->
             initializeContentCollection accessToken
             CONTENT_INITED = yes
 
+        if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') is -1)
+            data = igmFetchUserData YLEBEDEVA_ID, accessToken
+            YLebedeva.insert data if data
+
         updateContentCollection accessToken
 
     Content.find {}, { limit: 100 }
@@ -54,6 +58,10 @@ Meteor.startup ->
 
     console.log "INFO::APP_START: Application initialization started..."
     Content._ensureIndex 'id', { unique: 1, sparse: 1 }
+
+    if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
+        data = igmFetchUserData YLEBEDEVA_ID, ACCESS_TOKEN
+        YLebedeva.insert data if data
 
     if Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
         console.log "INFO::APP_START: Initializing LOCAL Content Collection..."
