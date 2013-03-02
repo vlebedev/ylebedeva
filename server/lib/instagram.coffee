@@ -2,11 +2,12 @@ _paginator = (url, acc) ->
     result = Meteor.http.get url
     data = result?.data?.data
     next_url = result?.pagination?.next_url
+    console.log "len: #{data?.len}, next_url: #{next_url}"
     acc.concat data if data
     if next_url then paginator(next_url, acc) else acc
 
 fetchAllMediaArray = (user_id, access_token) ->
-    _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}&count=-1", []
+    _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}", []
 
 ###
         if data
