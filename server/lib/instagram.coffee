@@ -13,6 +13,6 @@ igmFetchNewMediaArray = (user_id, access_token, min_id) ->
     _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}&min_id=#{min_id}&count=-1", []
 
 igmFetchUserData = (user_id, access_token) ->
-    result = Meteor.http.get "https://api.instagram.com/v1/users/{#user_id}/?access_token=#{access_token}"
+    result = Meteor.http.get "https://api.instagram.com/v1/users/#{user_id}/?access_token=#{access_token}"
     console.log result?.data
     result?.data?.data

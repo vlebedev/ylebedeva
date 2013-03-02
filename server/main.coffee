@@ -54,6 +54,9 @@ Meteor.publish 'content', () ->
 
     Content.find {}, { limit: 100 }
 
+Meteor.publish 'ylebedeva', () ->
+    YLebedeva.find {}
+
 Meteor.startup ->
 
     console.log "INFO::APP_START: Application initialization started..."
