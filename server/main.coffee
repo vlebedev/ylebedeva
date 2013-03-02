@@ -18,8 +18,8 @@ Meteor.publish 'content', () ->
         console.log "from mongo -- minTS: #{minTS}, maxTS: #{maxTS}"
 
         if minTS && maxTS
-            resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?max_timestamp={#maxTS}"
-            resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}?min_timestamp={#minTS}"
+            resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}&max_timestamp={#maxTS}"
+            resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}&min_timestamp={#minTS}"
             console.log "================"
             console.log resultMax?.data
             console.log "================"
