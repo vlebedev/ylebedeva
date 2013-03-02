@@ -11,9 +11,9 @@ fetchAllMediaArray = (user_id, access_token) ->
     first_batch = _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}", []
 
     if first_batch
-        ts_sorted = _.pluck(first_batch, 'created_time').sort((a,b) -> a-b)
-        max_id = ts_sorted[0]
-        console.log "max_id: #{max_id}"
+        ts_sorted = first_batch.sort((a,b) -> a.created_time-b.created_time)
+        max_id = ts_sorted[0].id
+        console.log "media count: #{first_batch.length}, max_id: #{max_id}"
         _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}&max_id=#{max_id}", first_batch
     else
         []
