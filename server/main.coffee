@@ -20,10 +20,8 @@ Meteor.publish 'content', () ->
         if minTS && maxTS
             resultMax = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}&max_timestamp={#maxTS}"
             resultMin = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}&min_timestamp={#minTS}"
-            console.log "================"
-            console.log resultMax?.data
-            console.log "================"
-            console.log resultMin?.data
+            console.log "max (< #{maxTS}) data len: #{resultMax?.data?.data?.length}"
+            console.log "min (> #{minTS}) data len: #{resultMin?.data?.data?.length}"
         else
             Counters.insert { minTS: '', maxTS: '' }
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
@@ -42,8 +40,6 @@ Meteor.publish 'content', () ->
             existingCntIds = _.pluck Content.find({}).fetch(), 'id'
             resultTimeStamps = _.pluck(data, 'created_time').sort((a,b) -> a-b)
 
-            console.log "time stamps sorted -- resultTimeStamps: #{resultTimeStamps}"
-
             minTS = resultTimeStamps[resultTimeStamps.length-1]
             maxTS = resultTimeStamps[0]
 
@@ -52,10 +48,13 @@ Meteor.publish 'content', () ->
 
             data.forEach (c) ->
                 if _.indexOf(existingCntIds, c.id) is -1
+                    console.log "new content id: #{c.id}"
                     try
                         Content.insert c
                     catch e
                         # do nothing
+                else
+                    console.log "existing content id: #{c.id}"
 
     Content.find {}
 
