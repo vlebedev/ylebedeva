@@ -14,5 +14,5 @@ igmFetchNewMediaArray = (user_id, access_token, min_id) ->
 
 igmFetchUserData = (user_id, access_token) ->
     result = Meteor.http.get "https://api.instagram.com/v1/users/{#user_id}/?access_token=#{access_token}"
-    result?.data?.data
     console.log result?.data
+    result?.data?.data
