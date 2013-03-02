@@ -1,10 +1,12 @@
 <template name="matrix">
 
-<div class="container catalog">
+<div class="row-fluid">
     <div class="span12">
-        {{#each contents}}
-            {{> thumbnail}}
-        {{/each}}
+        <div id="matrix">
+            {{#each contents}}
+                {{> thumbnail}}
+            {{/each}}
+        </div>
     </div>
 </div>
 

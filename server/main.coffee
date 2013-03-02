@@ -48,7 +48,7 @@ Meteor.publish 'content', () ->
 
         updateContentCollection accessToken
 
-    Content.find {}
+    Content.find {}, { limit: 100 }
 
 Meteor.startup ->
 

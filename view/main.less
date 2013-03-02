@@ -1,3 +1,58 @@
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+      -ms-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+      -ms-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+      -ms-transition-property:     -ms-transform, opacity;
+       -o-transition-property:      -o-transform, opacity;
+          transition-property:         transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+      -ms-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+body { 
+    padding-top: 70px; 
+    padding-bottom: 40px;
+    background-color: #d8d8d8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .border-radius(@radius) {
   -webkit-border-radius: @radius;
      -moz-border-radius: @radius;
@@ -20,12 +75,6 @@
 .pie() {
     position: relative;
     behavior: url('/PIE.htc');
-}
-
-body { 
-    padding-top: 70px; 
-    padding-bottom: 40px; 
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -60,6 +109,14 @@ a {
         color: #111;
         text-decoration: underline;
     }
+}
+
+.item {
+    margin: 5px;
+    float: left;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #FFFFFF;
 }
 
 .centered {
@@ -354,69 +411,4 @@ a {
             outline: none;
         }
     }
-}
-
-.modal-about {
-    .p {
-        line-height: 20px;
-        margin-bottom: 10px;
-        &.with-button {
-            position: relative;
-            padding-left: 210px;
-            .button-demo {
-                .pie();
-                position: absolute;
-                top: 7px;
-                left: 0;
-                bottom: 7px;
-                .border-radius(0 14px 14px 0);
-                background: #e9e8e3;
-                background: rgba(233,232,227, 0.3);
-                width: 186px;
-                padding: 9px 9px 9px 0;
-                .button-demo-inner {
-                    .pie();
-                    border: 1px solid white;
-                    background: #f4f3ee;
-                    .border-radius(0 7px 7px 0);
-                    height: 100%;
-                    .fake-button {
-                        position: absolute;
-                        width: 170px;
-                        height: 40px;
-                        top: 50%;
-                        margin-top: -20px;
-                        right: 6px;
-                        background: url('/img/fake-button.png');
-                        cursor: pointer;
-                    }
-                } 
-            }
-        }
-        &.sig {
-            font-style: italic;
-            // text-align: right;
-        }
-    }
-}
-
-.modal-register .input-fields {
-    margin-top: 15px;
-}
-
-.profile {
-    .edit {
-        cursor: pointer;
-    }
-    a.site-url {
-        white-space: nowrap;
-    }
-    td.muted {
-        text-decoration: line-through;
-    }
-}
-
-.bigorange {
-    font-size: 16px;
-    color: #666;
 }

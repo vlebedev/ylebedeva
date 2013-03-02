@@ -12,6 +12,6 @@ accounts-base
 accounts-oauth2-helper
 http
 templating
-bootstrap
 accounts-ui
 less
+bootstrap
