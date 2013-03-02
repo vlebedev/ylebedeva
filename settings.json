@@ -1,6 +1,6 @@
 {
     "INIT_CONTENT": false,
     "public": {
-        "SHOW_SIGN_IN": true
+        "SHOW_SIGN_IN": false
     }
 }

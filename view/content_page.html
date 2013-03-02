@@ -1,0 +1,67 @@
+<template name="content_page">
+    <div class="container content-page">
+        <div class="row">
+        {{#if content}}
+            {{#with content}}
+                <div class="span10 offset1 content">
+                    <div class="row">
+                        <div class="main span6 offset2">
+                            <img class="media-object content-image fullpic" src="{{images.standard_resolution.url}}"/>
+                            <ul class="comments-list" id="comments">
+                                {{#if comments.count}}
+                                    <li class="comments-count">
+                                        Comments: {{comments.count}}
+                                    </li>
+                                    {{#each comments.data}}
+                                        {{> comment}}
+                                    {{/each}}
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {{#if likes.count}}
+                    <div class="span10 offset1 likes">
+                        <div class="row">
+                            <div class="span2 title">
+                                <h4>Liked By:</h4>
+                            </div>
+                            <div class="liked-by span6">
+                                {{#each likes.data}}
+                                        <img src="{{profile_picture}}" class="avatar" width="50" height="50">
+                                {{/each}}
+                                {{#if moreLikes}}
+                                <div class="more">{{{moreLikes}}}</div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+            {{/with}}
+        {{/if}}
+        </div>
+    </div>
+</template>
+
+<template name="comment">
+    <li class="comment media">
+
+        <img class="comment-avatar pull-left comment-img media-object" src="{{from.profile_picture}}" height="32" width="32" alt=""/>
+
+        <div class="media-body">
+            <span class="comment-meta media-heading">
+                <span class="comment-fullname">
+                    {{from.full_name}}
+                </span>
+                <span class="comment-created">
+                    {{created_time}}
+                </span>
+            </span>
+
+            <p class="comment-text">
+                {{text}}
+            </p>
+        </div>
+    </li>
+</template>

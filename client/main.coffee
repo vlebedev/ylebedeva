@@ -6,4 +6,4 @@ Meteor.autorun ()->
     Meteor.subscribe 'ylebedeva'
 
 Meteor.startup ->
-    Meteor.subscribe 'content'
+    Session.setDefault 'current_content', null
