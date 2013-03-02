@@ -3,21 +3,18 @@ _paginator = (url, acc) ->
     data = result?.data?.data
     next_url = result?.pagination?.next_url
     console.log result?.data?.meta
-    console.log "media in batch: #{data?.length}, next_url: #{next_url}"
+    console.log "media in batch: #{data?.length}, next_url: #{next_url}, next_max_id: #{result?.data?.pagination?.next_max_id}"
     acc.concat data if data
     if next_url then paginator(next_url, acc) else acc
 
 fetchAllMediaArray = (user_id, access_token) ->
-    _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}", []
+    first_batch = _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}", []
 
-###
-        if data
-            existingCntIds = _.pluck Content.find({}).fetch(), 'id'
-            resultTimeStamps = _.pluck(data, 'created_time').sort((a,b) -> a-b)
+    if first_batch
+        ts_sorted = _.pluck(first_batch, 'created_time').sort((a,b) -> a-b)
+        max_id = ts_sorted[0]
+        console.log "max_id: #{max_id}"
+        _paginator "https://api.instagram.com/v1/users/#{user_id}/media/recent/?access_token=#{access_token}&max_id=#{max_id}", first_batch
+    else
+        []
 
-            minTS = resultTimeStamps[resultTimeStamps.length-1]
-            maxTS = resultTimeStamps[0]
-
-            console.log "from data -- minTS: #{minTS}, maxTS: #{maxTS}"
-            Counters.update {}, { $set: {minTS: minTS, maxTS: maxTS } }
-###
