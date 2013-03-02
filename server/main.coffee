@@ -34,8 +34,6 @@ Meteor.publish 'content', () ->
         else
             data = result?.data?.data
 
-        console.log data
-
         if data
             existingCntIds = _.pluck Content.find({}).fetch(), 'id'
             resultTimeStamps = _.pluck(data, 'created_time').sort((a,b) -> a-b)
