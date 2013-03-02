@@ -50,7 +50,7 @@ Meteor.publish 'content', () ->
             console.log "from data -- minTS: #{minTS}, maxTS: #{maxTS}"
             Counters.update {}, { $set: {minTS: minTS, maxTS: maxTS } }
 
-            result.data.data.forEach (c) ->
+            data.forEach (c) ->
                 if _.indexOf(existingCntIds, c.id) is -1
                     try
                         Content.insert c
