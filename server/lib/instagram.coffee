@@ -2,8 +2,8 @@ _paginator = (url, acc) ->
     result = Meteor.http.get url
     data = result?.data?.data
     next_url = result?.pagination?.next_url
-    console.log "data: #{JSON.stringify result?.data}"
-    console.log "len: #{data?.len}, next_url: #{next_url}"
+    console.log result?.data?.meta
+    console.log "media in batch: #{data?.length}, next_url: #{next_url}"
     acc.concat data if data
     if next_url then paginator(next_url, acc) else acc
 
