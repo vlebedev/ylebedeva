@@ -29,9 +29,9 @@ Meteor.publish 'content', () ->
             result = Meteor.http.get "https://api.instagram.com/v1/users/#{YLEBEDEVA_ID}/media/recent/?access_token=#{accessToken}"
 
         if resultMax or resultMin
-            if resultMax.data?.data
+            if resultMax?.data?.data
                 data = resultMax.data.data
-            if resultMin.data?.data
+            if resultMin?.data?.data
                 data = data.concat resultMin.data.data
         else
             data = result?.data?.data
