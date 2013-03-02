@@ -24,14 +24,13 @@ initializeContentCollection = () ->
                     Content.insert c
                 catch e
                     # do nothing
-            else
-
 
 Meteor.publish 'content', () ->
-    if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
-        console.log "INFO::PUBLISH CONTENT: Initializing PRODUCTION Content Collection..."
-        initializeContentCollection()
-        CONTENT_INITED = yes
+    if @userId
+        if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
+            console.log "INFO::PUBLISH CONTENT: Initializing PRODUCTION Content Collection..."
+            initializeContentCollection()
+            CONTENT_INITED = yes
 
     Content.find {}
 
