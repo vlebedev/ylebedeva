@@ -8,6 +8,7 @@ Meteor.publish 'content', () ->
     if @userId
 
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
+        console.log accessToken
         data = fetchAllMediaArray YLEBEDEVA_ID, accessToken
         existingCntIds = _.pluck Content.find({}, { fields: { id: 1 } }).fetch(), 'id'
 
