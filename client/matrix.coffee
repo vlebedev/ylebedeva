@@ -1,4 +1,4 @@
 _.extend Template.matrix,
 
     contents: () ->
-        Content.find {}
+        Content.find {}, { sort: { created_time: -1 } }
