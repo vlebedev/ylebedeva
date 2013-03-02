@@ -1,7 +1,7 @@
 _.extend Template.navbar,
 
     show_sign_in_button: () ->
-        Meteor.settings.public.SHOW_SIGN_IN
+        Meteor.settings?.public?.SHOW_SIGN_IN
 
     userpic: () ->
         YLebedeva.findOne({})?.profile_picture
