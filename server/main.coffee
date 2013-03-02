@@ -1,4 +1,5 @@
 CONTENT_INITED = no
+LAST_UPDATE = 0
 YLEBEDEVA_ID = '12698906'
 ACCESS_TOKEN = '4695387.85184ee.a442ae2228dd494794aa5271e960b7ad'
 
@@ -26,14 +27,19 @@ initializeContentCollection = (accessToken) ->
     console.log "INFO::INIT CONTENT: documents inserted: #{count}"
 
 updateContentCollection = (accessToken) ->
-    min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
-    count = insertData fetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
-    console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
+    tm = Date.utc.create().getTime()
+    count = 0
+    if tm - LAST_UPDATE >= (1000*60*5)
+        min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
+        count = insertData fetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
+        console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
+        LAST_UPDATE = tm
+    return count
 
 Meteor.publish 'content', () ->
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
-        console.log "INFO::PUBLISH CONTENT: access_token: #{accessToken}"
+        console.log "INFO::PUBLISH CONTENT: access_token: #{accessToken}" if Meteor.settings.INIT_CONTENT
 
         if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
             console.log "INFO::PUBLISH CONTENT: Initializing PRODUCTION Content Collection..."
