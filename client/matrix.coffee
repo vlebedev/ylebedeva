@@ -10,5 +10,5 @@ _.extend Template.matrix,
         $('#matrix').imagesLoaded () ->
             $('#matrix').isotope(
                 itemSelector: '.item'
-                layoutMode: 'cellsByRow'
+                layoutMode: 'fitRows'
             )

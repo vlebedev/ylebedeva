@@ -52,7 +52,7 @@ Meteor.publish 'content', () ->
 
         updateContentCollection accessToken
 
-    Content.find {}
+    Content.find {}, { limit: 60 }
 
 Meteor.publish 'ylebedeva', () ->
     YLebedeva.find {}

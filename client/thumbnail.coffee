@@ -1,7 +1,7 @@
 _.extend Template.thumbnail,
 
     thumbnailUrl: () ->
-        @images.thumbnail.url
+        @images.low_resolution.url
 
 Template.thumbnail.events
 
