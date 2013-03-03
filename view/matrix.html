@@ -3,14 +3,23 @@
 {{#if current_content}}
     {{> content_page}}
 {{else}}
-    <div class="row-fluid">
-        <div class="span12">
-            <div id="matrix">
-                {{#each contents}}
-                    {{> thumbnail}}
-                {{/each}}
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <div id="matrix">
+                    {{#each contents}}
+                        {{> thumbnail}}
+                    {{/each}}
+                </div>
             </div>
         </div>
+        {{#if load_more}}
+        <div class="row loadmore">
+            <div class="span6 offset2">
+                <button class="btn btn-block btn-info loadmorebtn">Load more...</button>                
+            </div>
+        </div>
+        {{/if}}
     </div>
 {{/if}}
 

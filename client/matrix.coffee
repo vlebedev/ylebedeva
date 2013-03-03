@@ -7,7 +7,7 @@ _.extend Template.matrix,
         Session.get 'current_content'
 
     created: () ->
-        $('#matrix').imagesLoaded () ->
+        # $('#matrix').imagesLoaded () ->
             $('#matrix').isotope(
                 itemSelector: '.item'
                 layoutMode: 'fitRows'
