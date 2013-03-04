@@ -19,6 +19,7 @@ _.extend Template.content_page,
         id = setTimeout(
             () ->
                 Session.set 'current_content', null
+                Session.set 'prev_content', null
                 Session.set 'timer_id', null
             , CONTENT_PAGE_TIMEOUT_DELAY
         )
@@ -34,6 +35,7 @@ Template.content_page.events
     'click img': (evt) ->
         # evt.preventDefault()
         Session.set 'current_content', null
+        Session.set 'prev_content', null
 
 _.extend Template.comment,
 

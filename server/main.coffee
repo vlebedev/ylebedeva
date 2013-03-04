@@ -12,6 +12,8 @@ insertData = (data) ->
         existingCntIds = _.pluck Content.find({}, { fields: { id: 1 } }).fetch(), 'id'
         data.forEach (c) ->
             if _.indexOf(existingCntIds, c.id) is -1
+                _.extend c,
+                    mdfLikes: 0
                 try
                     Content.insert c
                     cnt += 1

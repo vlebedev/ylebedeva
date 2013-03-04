@@ -9,6 +9,8 @@ Meteor.autorun ()->
 
 Meteor.startup ->
     Session.setDefault 'current_content', null
+    Session.setDefault 'prev_content', null
     Session.setDefault 'content_limit', 30
     Session.setDefault 'loading', no
+    Session.setDefault 'liked', ''
 
