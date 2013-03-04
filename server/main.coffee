@@ -25,6 +25,10 @@ initializeContentCollection = (accessToken) ->
     Content.remove({})
     count = insertData igmFetchAllMediaArray YLEBEDEVA_ID, accessToken
     console.log "INFO::INIT CONTENT: documents inserted: #{count}"
+    # apply patches
+    console.log "INFO::INIT CONTENT: patching content..."
+    Content.remove { id: "358128846454459696_12698906" }
+    Content.remove { id: "311775728188067002_12698906" }
 
 updateContentCollection = (accessToken) ->
     tm = Date.utc.create().getTime()
