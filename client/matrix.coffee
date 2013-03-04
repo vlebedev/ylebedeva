@@ -1,3 +1,5 @@
+LIMIT_DELTA = 15
+
 _.extend Template.matrix,
 
     contents: () ->
@@ -7,8 +9,14 @@ _.extend Template.matrix,
         Session.get 'current_content'
 
     created: () ->
-        # $('#matrix').imagesLoaded () ->
-            $('#matrix').isotope(
-                itemSelector: '.item'
-                layoutMode: 'fitRows'
-            )
+        $('#matrix').isotope(
+            itemSelector: '.item'
+            layoutMode: 'fitRows'
+        )
+
+        $(window).scroll () ->
+            if !Session.get('loading') and $(window).scrollTop() is $(document).height() - $(window).height()
+                Session.set 'loading', yes
+                newLimit = Session.get('content_limit') + LIMIT_DELTA
+                Session.set 'content_limit', newLimit
+                console.log "newLimit: #{newLimit}"

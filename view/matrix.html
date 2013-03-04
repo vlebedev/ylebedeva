@@ -13,12 +13,10 @@
                 </div>
             </div>
         </div>
-        {{#if load_more}}
-        <div class="row loadmore">
-            <div class="span6 offset2">
-                <button class="btn btn-block btn-info loadmorebtn">Load more...</button>                
+        {{#if loading}}
+            <div class="span12">
+                <div class="loading"></div>
             </div>
-        </div>
         {{/if}}
     </div>
 {{/if}}

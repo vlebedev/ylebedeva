@@ -36,7 +36,7 @@ updateContentCollection = (accessToken) ->
         LAST_UPDATE = tm
     return count
 
-Meteor.publish 'content', () ->
+Meteor.publish 'content', (limit) ->
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
         console.log "INFO::PUBLISH CONTENT: access_token: #{accessToken}" if Meteor.settings.INIT_CONTENT
@@ -52,7 +52,7 @@ Meteor.publish 'content', () ->
 
         updateContentCollection accessToken
 
-    Content.find {}, { sort: { created_time: -1 }, limit: 60 }
+    Content.find {}, { sort: { created_time: -1 }, limit: limit }
 
 Meteor.publish 'ylebedeva', () ->
     YLebedeva.find {}
