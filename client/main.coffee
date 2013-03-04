@@ -9,6 +9,6 @@ Meteor.autorun ()->
 
 Meteor.startup ->
     Session.setDefault 'current_content', null
-    Session.setDefault 'content_limit', 15
+    Session.setDefault 'content_limit', 30
     Session.setDefault 'loading', no
 

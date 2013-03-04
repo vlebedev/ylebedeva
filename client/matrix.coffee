@@ -1,4 +1,4 @@
-LIMIT_DELTA = 15
+LIMIT_DELTA = 30
 
 _.extend Template.matrix,
 
@@ -12,10 +12,11 @@ _.extend Template.matrix,
         Session.get 'loading'
 
     created: () ->
-        $('#matrix').isotope(
-            itemSelector: '.item'
-            layoutMode: 'fitRows'
-        )
+        $('#matrix').imagesLoaded ()->
+            $('#matrix').isotope(
+                itemSelector: '.item'
+                layoutMode: 'fitRows'
+            )
 
         $(window).scroll () ->
             height = if window.innerHeight then window.innerHeight else $(window).height()
