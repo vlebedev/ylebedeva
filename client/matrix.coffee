@@ -8,6 +8,9 @@ _.extend Template.matrix,
     current_content: () ->
         Session.get 'current_content'
 
+    loading: () ->
+        Session.get 'loading'
+
     created: () ->
         $('#matrix').isotope(
             itemSelector: '.item'
