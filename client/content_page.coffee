@@ -35,11 +35,10 @@ Template.content_page.events
     'click .fullpic': (evt) ->
         evt.preventDefault()
         cid = Session.get 'current_content'
-        Session.set 'current_content', null
-        Session.set 'prev_content', null
+        Router.setMain 'matrix'
         setTimeout( 
             () ->
-                $(window).scrollTo('#'+"#{cid}")
+                $(window).scrollTo('#'+"#{cid}", 300, { offset: {top: -278, left: 0 } })
             , 500
         )
 

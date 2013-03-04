@@ -21,7 +21,7 @@ _.extend Template.navbar,
         Session.get 'current_content'
 
     rendered: () ->
-        if Meteor.settings?.public?.SHOW_SIGN_IN
+        if Session.get 'enable_signin'
             $('.text-besides-image').text('Sign In').css({ 'font-size': 36, 'font-family': 'BillabongRegular'})
             $('#login-buttons').css({ 'padding-top': '27px' })
             $('.login-button').css({ 'border': 'none' })
