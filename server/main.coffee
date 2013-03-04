@@ -1,5 +1,4 @@
 CONTENT_INITED = no
-LAST_UPDATE = 0
 YLEBEDEVA_ID = '12698906'
 ACCESS_TOKEN = '4695387.85184ee.a442ae2228dd494794aa5271e960b7ad'
 
@@ -33,13 +32,10 @@ initializeContentCollection = (accessToken) ->
     Content.remove { id: "311775728188067002_12698906" }
 
 updateContentCollection = (accessToken) ->
-    tm = Date.utc.create().getTime()
     count = 0
-    if tm - LAST_UPDATE >= (1000*60*5)
-        min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
-        count = insertData igmFetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
-        console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
-        LAST_UPDATE = tm
+    min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
+    count = insertData igmFetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
+    console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
     return count
 
 Meteor.publish 'content', (limit) ->
@@ -62,6 +58,13 @@ Meteor.publish 'content', (limit) ->
 
 Meteor.publish 'ylebedeva', () ->
     YLebedeva.find {}
+
+Meteor.methods 
+    
+    'updated_db': () ->
+        if Meteor.user()
+            accessToken = Meteor.user()?.services?.instagram?.accessToken
+            updateContentCollection accessToken
 
 Meteor.startup ->
 

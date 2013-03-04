@@ -20,7 +20,7 @@ _.extend Template.matrix,
 
         $(window).scroll () ->
             height = if window.innerHeight then window.innerHeight else $(window).height()
-            if !Session.get('loading') and $(window).scrollTop() is $(document).height() - height
+            if !Session.get('loading') and !Session.get('current_content') and $(window).scrollTop() is $(document).height() - height
                 Session.set 'loading', yes
                 newLimit = Session.get('content_limit') + LIMIT_DELTA
                 Session.set 'content_limit', newLimit

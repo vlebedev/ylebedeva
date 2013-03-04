@@ -32,10 +32,16 @@ _.extend Template.content_page,
 
 Template.content_page.events
 
-    'click img': (evt) ->
-        # evt.preventDefault()
+    'click .fullpic': (evt) ->
+        evt.preventDefault()
+        cid = Session.get 'current_content'
         Session.set 'current_content', null
         Session.set 'prev_content', null
+        setTimeout( 
+            () ->
+                $(window).scrollTo('#'+"#{cid}")
+            , 500
+        )
 
 _.extend Template.comment,
 

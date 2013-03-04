@@ -5,7 +5,6 @@ _.extend Template.thumbnail,
 
 Template.thumbnail.events
 
-    'click img': (evt) ->
-        # evt.preventDefault()
-        Session.set 'prev_content', null
-        Session.set 'current_content', @_id
+    'click .thumb': (evt) ->
+        evt.preventDefault()
+        Router.setMain "photo/#{@_id}"
