@@ -38,7 +38,13 @@ Template.navbar.events
 
     'click .brand': (evt) ->
         evt.preventDefault()
+        cid = Session.get 'current_content'
         Router.setMain 'matrix'
+        setTimeout( 
+            () ->
+                $(window).scrollTo('#'+"#{cid}", 300, { offset: {top: -278, left: 0 } })
+            , 500
+        )
 
     'click .like-button': (evt) ->
         if !Session.get 'liked'
