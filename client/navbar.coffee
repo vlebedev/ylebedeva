@@ -38,7 +38,7 @@ Template.navbar.events
 
     'click .brand': (evt) ->
         evt.preventDefault()
-        Session.set 'current_content', null
+        Router.setMain 'matrix'
 
     'click .like-button': (evt) ->
         if !Session.get 'liked'

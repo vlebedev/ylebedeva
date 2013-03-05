@@ -24,7 +24,7 @@ insertData = (data) ->
     else
         0
 
-initializeContentCollection = (accessToken) ->
+updateContentCollection = (accessToken) ->
     # Content.remove({})
     count = insertData igmFetchAllMediaArray YLEBEDEVA_ID, accessToken
     console.log "INFO::INIT CONTENT: documents inserted: #{count}"
@@ -33,28 +33,19 @@ initializeContentCollection = (accessToken) ->
     Content.remove { id: "358128846454459696_12698906" }
     Content.remove { id: "311775728188067002_12698906" }
 
-updateContentCollection = (accessToken) ->
-    count = 0
-    min_id = Content.find({}, { sort: { created_time: -1 } }).fetch()?[0].id
-    count = insertData igmFetchNewMediaArray YLEBEDEVA_ID, accessToken, min_id
-    console.log "INFO::UPDATE CONTENT: documents inserted: #{count}"
-    return count
-
 Meteor.publish 'content', (limit) ->
     if @userId
         accessToken = Meteor.users.findOne(@userId)?.services?.instagram?.accessToken
         console.log "INFO::PUBLISH CONTENT: access_token: #{accessToken}" if Meteor.settings.INIT_CONTENT
 
         if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
-            console.log "INFO::PUBLISH CONTENT: Initializing PRODUCTION Content Collection..."
-            initializeContentCollection accessToken
+            console.log "INFO::PUBLISH CONTENT: Updating PRODUCTION Content Collection..."
+            updateContentCollection accessToken
             CONTENT_INITED = yes
 
         if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') is -1)
             data = igmFetchUserData YLEBEDEVA_ID, accessToken
             YLebedeva.insert data if data
-
-        updateContentCollection accessToken
 
     Content.find {}, { sort: { created_time: -1 }, limit: limit }
 
@@ -62,7 +53,7 @@ Meteor.publish 'ylebedeva', () ->
     YLebedeva.find {}
 
 Meteor.methods 
-    
+
     'updated_db': () ->
         if Meteor.user()
             accessToken = Meteor.user()?.services?.instagram?.accessToken
@@ -73,8 +64,6 @@ Meteor.methods
         mixpanel.track event, data
 
 Meteor.startup ->
-
-    console.log "INFO::APP_START: Application initialization started..."
     Content._ensureIndex 'id', { unique: 1, sparse: 1 }
 
     if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
@@ -82,8 +71,6 @@ Meteor.startup ->
         YLebedeva.insert data if data
 
     if Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
-        console.log "INFO::APP_START: Initializing LOCAL Content Collection..."
-        initializeContentCollection ACCESS_TOKEN
+        console.log "INFO::APP_START: Updating LOCAL Content Collection..."
+        updateContentCollection ACCESS_TOKEN
         CONTENT_INITED = yes
-
-    console.log "INFO::APP_START: Application initialization finished..."
