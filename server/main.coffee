@@ -52,7 +52,6 @@ Meteor.publish 'content', (limit) ->
         if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
             console.log "INFO::PUBLISH CONTENT: Updating PRODUCTION Content Collection..."
             updateContentCollection accessToken
-            validateData()
             CONTENT_INITED = yes
 
         if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') is -1)
@@ -66,7 +65,7 @@ Meteor.publish 'ylebedeva', () ->
 
 Meteor.methods 
 
-    'updated_db': () ->
+    'update_db': () ->
         if Meteor.user()
             accessToken = Meteor.user()?.services?.instagram?.accessToken
             updateContentCollection accessToken
@@ -85,5 +84,4 @@ Meteor.startup ->
     if Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
         console.log "INFO::APP_START: Updating LOCAL Content Collection..."
         updateContentCollection ACCESS_TOKEN
-        validateData()
         CONTENT_INITED = yes
