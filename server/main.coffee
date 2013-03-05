@@ -7,6 +7,19 @@ YLebedeva = new Meteor.Collection 'ylebedeva'
 
 mixpanel = Mixpanel.init Meteor.settings.MIXPANEL_APIKEY, debug: true
 
+validateData = () ->
+    Content.find({}, { sort: { created_time: -1 } }).forEach (c) ->
+        Meteor.http.get c.images.low_resolution.url, 
+            (err, result) ->
+                if err
+                    Content.update c._id,
+                        $set:
+                            deleted: yes
+                else
+                    Content.update c._id,
+                        $set:
+                            deleted: no
+
 insertData = (data) ->
     cnt = 0
     if data
@@ -27,11 +40,9 @@ insertData = (data) ->
 updateContentCollection = (accessToken) ->
     # Content.remove({})
     count = insertData igmFetchAllMediaArray YLEBEDEVA_ID, accessToken
-    console.log "INFO::INIT CONTENT: documents inserted: #{count}"
-    # apply patches
-    console.log "INFO::INIT CONTENT: patching content..."
-    Content.remove { id: "358128846454459696_12698906" }
-    Content.remove { id: "311775728188067002_12698906" }
+    validateData()
+    cnt_deleted = Content.find({ deleted: yes }).count()
+    console.log "INFO::UPDATE CONTENT: documents inserted: #{count}, deleted content count: #{cnt_deleted}"
 
 Meteor.publish 'content', (limit) ->
     if @userId
@@ -41,13 +52,14 @@ Meteor.publish 'content', (limit) ->
         if !CONTENT_INITED and Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') is -1)
             console.log "INFO::PUBLISH CONTENT: Updating PRODUCTION Content Collection..."
             updateContentCollection accessToken
+            validateData()
             CONTENT_INITED = yes
 
         if !YLebedeva.find({}).count() and (process.env.ROOT_URL.indexOf('localhost') is -1)
             data = igmFetchUserData YLEBEDEVA_ID, accessToken
             YLebedeva.insert data if data
 
-    Content.find {}, { sort: { created_time: -1 }, limit: limit }
+    Content.find { deleted: no }, { sort: { created_time: -1 }, limit: limit }
 
 Meteor.publish 'ylebedeva', () ->
     YLebedeva.find {}
@@ -73,4 +85,5 @@ Meteor.startup ->
     if Meteor.settings.INIT_CONTENT and (process.env.ROOT_URL.indexOf('localhost') isnt -1)
         console.log "INFO::APP_START: Updating LOCAL Content Collection..."
         updateContentCollection ACCESS_TOKEN
+        validateData()
         CONTENT_INITED = yes

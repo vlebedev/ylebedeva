@@ -1,4 +1,4 @@
-CONTENT_PAGE_TIMEOUT_DELAY = 2000*60
+CONTENT_PAGE_TIMEOUT_DELAY = 1000*30
 
 _.extend Template.content_page,
 
