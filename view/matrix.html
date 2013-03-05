@@ -1,0 +1,25 @@
+<template name="matrix">
+
+{{#if current_content}}
+    {{> content_page}}
+{{else}}
+    <div class="container matrix">
+        <div class="row">
+            <div class="span12">
+                <div id="matrix">
+                    {{#each contents}}
+                        {{> thumbnail}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="tiles-bottom"></div>
+        {{#if loading}}
+            <div class="span12">
+                <div class="loading"></div>
+            </div>
+        {{/if}}
+    </div>
+{{/if}}
+
+</template>

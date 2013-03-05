@@ -1,0 +1,28 @@
+<template name="navbar">
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid navbar-container">
+                <div class="navbar-text pull-left ylebedeva">
+                    <img class="userpic" src="{{userpic}}" width="80" height="80"><span class="username"><strong>YLEBEDEVA</strong><span>
+                </div>
+                
+                {{#if current_content}}
+                    <div class="user-menu btn-group pull-right like-button-area">
+                        <button class="btn btn-large like-button">
+                            <span class="{{liked}}"> 
+                                <span class="icon-heart">
+                                </span>
+                                Like {{likes_counter}}
+                            </span>
+                        </button>
+                    </div>
+                {{/if}}
+
+                {{#if show_sign_in_button}}
+                    <p class="user-menu navbar-text pull-right">{{loginButtons align="right"}}</p>
+                {{/if}}
+                <a class="brand" href="#">Instagram</a>
+            </div>
+        </div>
+    </div>
+</template>
