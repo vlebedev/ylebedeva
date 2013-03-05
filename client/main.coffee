@@ -12,8 +12,8 @@ YLRouter = Backbone.Router.extend
     routes: 
         'matrix': 'matrix'
         'photo/:id': 'photo'
-        'EnablESigNin': 'enable'
-        'updateDB': 'update'
+        'enable': 'enable'
+        'update': 'update'
 
     photo: (id) ->
         Session.set 'current_content', id

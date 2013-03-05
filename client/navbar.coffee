@@ -36,7 +36,7 @@ _.extend Template.navbar,
 
 Template.navbar.events
 
-    'click .brand': (evt) ->
+    'click .brand, click .userpic': (evt) ->
         evt.preventDefault()
         cid = Session.get 'current_content'
         Router.setMain 'matrix'
