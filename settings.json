@@ -1,6 +1,4 @@
 {
-    "INIT_CONTENT": false,
-    "public": {
-        "SHOW_SIGN_IN": false
-    }
+    "INIT_CONTENT": true,
+    "MIXPANEL_APIKEY": "7585c62e3281ee33e4b333ae21dab069"
 }

@@ -18,8 +18,7 @@ _.extend Template.content_page,
     rendered: () ->
         id = setTimeout(
             () ->
-                Session.set 'current_content', null
-                Session.set 'prev_content', null
+                Router.setMain 'matrix'
                 Session.set 'timer_id', null
             , CONTENT_PAGE_TIMEOUT_DELAY
         )

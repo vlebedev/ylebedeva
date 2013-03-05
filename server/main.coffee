@@ -5,6 +5,8 @@ ACCESS_TOKEN = '4695387.85184ee.a442ae2228dd494794aa5271e960b7ad'
 Content = new Meteor.Collection 'content'
 YLebedeva = new Meteor.Collection 'ylebedeva'
 
+mixpanel = Mixpanel.init Meteor.settings.MIXPANEL_APIKEY, debug: true
+
 insertData = (data) ->
     cnt = 0
     if data
@@ -23,7 +25,7 @@ insertData = (data) ->
         0
 
 initializeContentCollection = (accessToken) ->
-    Content.remove({})
+    # Content.remove({})
     count = insertData igmFetchAllMediaArray YLEBEDEVA_ID, accessToken
     console.log "INFO::INIT CONTENT: documents inserted: #{count}"
     # apply patches
@@ -65,6 +67,10 @@ Meteor.methods
         if Meteor.user()
             accessToken = Meteor.user()?.services?.instagram?.accessToken
             updateContentCollection accessToken
+
+    'track': (event, data) ->
+        console.log "TRACK::#{event}: #{JSON.stringify data}"
+        mixpanel.track event, data
 
 Meteor.startup ->
 

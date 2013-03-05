@@ -43,7 +43,12 @@ Template.navbar.events
     'click .like-button': (evt) ->
         if !Session.get 'liked'
             Session.set 'liked', 'liked'
-            Content.update Session.get('current_content'),
+            cid = Session.get 'current_content'
+            content = Content.findOne(cid)
+            Content.update cid,
                 $inc:
                     mdfLikes: 1
+            Meteor.call 'track', 'like',
+                id: content.id
+                image_url: content.images.low_resolution.url
 
