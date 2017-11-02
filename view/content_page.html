@@ -11,17 +11,20 @@
                             <ul class="comments-list" id="comments">
                                 {{#if comments.count}}
                                     <li class="comments-count">
-                                        Comments: {{comments.count}}
+                                        Comments: {{comments.count}} Likes: {{likes.count}}
                                     </li>
+<!-- removed due to new Instagram API
                                     {{#each comments.data}}
                                         {{> comment}}
                                     {{/each}}
+-->
                                 {{/if}}
                             </ul>
                         </div>
                     </div>
                 </div>
 
+<!-- removed due to new Instagram API
                 {{#if likes.count}}
                     <div class="span10 offset1 likes">
                         <div class="row">
@@ -32,14 +35,16 @@
                                 {{#each likes.data}}
                                         <img src="{{profile_picture}}" class="avatar" width="50" height="50">
                                 {{/each}}
-                                {{#if moreLikes}}
-                                <div class="more">{{{moreLikes}}}</div>
-                                {{/if}}
                             </div>
+                            {{#if moreLikes}}
+                            <div class="more">{{{moreLikes}}}</div>
+                            {{/if}}
                         </div>
                     </div>
                 {{/if}}
-            {{/with}}
+-->
+
+                {{/with}}
         {{/if}}
         </div>
     </div>

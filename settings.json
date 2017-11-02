@@ -1,4 +1,9 @@
 {
+    "galaxy.meteor.com": {
+        "env": {
+          "MONGO_URL": "mongodb://admin:czGRXbnAdX3wCYg@ds141185.mlab.com:41185/ylebedeva"
+        }
+    },
     "INIT_CONTENT": true,
     "MIXPANEL_APIKEY": "7585c62e3281ee33e4b333ae21dab069"
 }

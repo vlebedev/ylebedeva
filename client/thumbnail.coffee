@@ -1,4 +1,4 @@
-_.extend Template.thumbnail,
+Template.thumbnail.helpers
 
     thumbnailUrl: () ->
         @images.low_resolution.url
@@ -10,4 +10,4 @@ Template.thumbnail.events
         Meteor.call 'track', 'photo_expand',
             id: @id
             image_url: @images.low_resolution.url
-        Router.setMain "photo/#{@_id}"
+        share.Router.setMain "photo/#{@_id}"

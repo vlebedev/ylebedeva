@@ -1,5 +1,5 @@
-Content = new Meteor.Collection 'content'
-YLebedeva = new Meteor.Collection 'ylebedeva'
+share.Content = new Meteor.Collection 'content'
+share.YLebedeva = new Meteor.Collection 'ylebedeva'
 
 Meteor.autorun ->
     Meteor.subscribe 'content', Session.get('content_limit'), () ->
@@ -7,9 +7,9 @@ Meteor.autorun ->
         console.log "requesting new limit: #{Session.get 'content_limit'}"
     Meteor.subscribe 'ylebedeva'
 
-YLRouter = Backbone.Router.extend
+share.YLRouter = Backbone.Router.extend
 
-    routes: 
+    routes:
         'matrix': 'matrix'
         'photo/:id': 'photo'
         'enable': 'enable'
@@ -34,7 +34,7 @@ YLRouter = Backbone.Router.extend
     setMain: (page) ->
         @navigate page, true
 
-Router = new YLRouter
+share.Router = new share.YLRouter
 
 Meteor.startup ->
     Session.setDefault 'current_content', null

@@ -1,9 +1,9 @@
 LIMIT_DELTA = 30
 
-_.extend Template.matrix,
+Template.matrix.helpers
 
     contents: () ->
-        Content.find {}, { sort: { created_time: -1 } }
+        share.Content.find {}, { sort: { created_time: -1 } }
 
     current_content: () ->
         Session.get 'current_content'

@@ -1,4 +1,6 @@
-var Mixpanel = !Meteor.isServer ? null : (function() {
+import { Meteor } from 'meteor/meteor';
+
+export var Mixpanel = (function() {
     /*
         Heavily inspired by the original js library copyright Mixpanel, Inc.
         (http://mixpanel.com/)
@@ -7,7 +9,7 @@ var Mixpanel = !Meteor.isServer ? null : (function() {
 
         Released under the MIT license.
     */
-
+    
     var create_client = function(token, config) {
         var metrics = {};
 
