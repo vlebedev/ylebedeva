@@ -11,12 +11,15 @@ Template.matrix.helpers
     loading: () ->
         Session.get 'loading'
 
-    created: () ->
+Template.matrix.onCreated () ->
+
         $('#matrix').imagesLoaded ()->
             $('#matrix').isotope(
                 itemSelector: '.item'
                 layoutMode: 'fitRows'
             )
+
+Template.matrix.onRendered () ->
 
         $(window).scroll () ->
             height = if window.innerHeight then window.innerHeight else $(window).height()

@@ -6,15 +6,16 @@ Template.content_page.helpers
         _id = Session.get 'current_content'
         share.Content.findOne(_id)
 
-    ## Removed due to new Instagram API (no more info on users who liked)
-    ## moreLikes: () ->
-        ## more = @likes.count - @likes.data.length
-        ## if more > 0
-        ##    if more is 1
-        ##        word = 'user'
-        ##    else
-        ##        word = 'users'
-        ##    return "+ <strong class='count'>#{more}</strong> more #{word}"
+    moreLikes: () ->
+        if @likes and @likes.count and @likes.data
+            more = @likes.count - @likes.data.length
+            if more > 0
+                if more is 1
+                    word = 'user'
+                else
+                    word = 'users'
+                return "+ <strong class='count'>#{more}</strong> more #{word}"
+        return ''
 
 Template.content_page.onRendered () ->
 
@@ -47,12 +48,12 @@ Template.content_page.events
         share.Router.setMain 'matrix'
         setTimeout( 
             () ->
-                $(window).scrollTo('#'+"#{cid}", 300, { offset: {top: -278, left: 0 } })
+                $(window).scrollTo('#' + "#{cid}", 300, { offset: { top: -278, left: 0 } })
             , 500
         )
 
 Template.comment.helpers
 
-    created_time: () ->
-        Date.utc.create(parseFloat(@created_time)*1000).relative()
+    cr_time: () ->
+        Date.create(parseFloat(@created_time) * 1000, { fromUTC: true }).relative()
 
