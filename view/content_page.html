@@ -13,18 +13,18 @@
                                     <li class="comments-count">
                                         Comments: {{comments.count}} Likes: {{likes.count}}
                                     </li>
-<!-- removed due to new Instagram API
+<!-- removed due to new Instagram API -->
                                     {{#each comments.data}}
                                         {{> comment}}
                                     {{/each}}
--->
+<!-- -->
                                 {{/if}}
                             </ul>
                         </div>
                     </div>
                 </div>
 
-<!-- removed due to new Instagram API
+<!--  removed due to new Instagram API -->
                 {{#if likes.count}}
                     <div class="span10 offset1 likes">
                         <div class="row">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 {{/if}}
--->
+<!-- -->
 
                 {{/with}}
         {{/if}}
@@ -61,7 +61,7 @@
                     {{from.full_name}}
                 </span>
                 <span class="comment-created">
-                    {{created_time}}
+                    {{cr_time}}
                 </span>
             </span>
 

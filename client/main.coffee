@@ -43,4 +43,4 @@ Meteor.startup ->
     Session.setDefault 'loading', no
     Session.setDefault 'liked', ''
     Session.setDefault 'enable_signin', no
-    Backbone.history.start pushState: true
+    Backbone.history.start { pushState: true }
