@@ -1,6 +1,6 @@
 LIMIT_DELTA = 30
 
-Template.matrix.helpers
+Template.matrix.helpers {
 
     contents: () ->
         share.Content.find {}, { sort: { created_time: -1 } }
@@ -10,14 +10,15 @@ Template.matrix.helpers
 
     loading: () ->
         Session.get 'loading'
+}
 
 Template.matrix.onCreated () ->
 
-        $('#matrix').imagesLoaded ()->
-            $('#matrix').isotope(
+        $('#matrix').imagesLoaded () ->
+            $('#matrix').isotope({
                 itemSelector: '.item'
                 layoutMode: 'fitRows'
-            )
+            })
 
 Template.matrix.onRendered () ->
 
@@ -27,4 +28,4 @@ Template.matrix.onRendered () ->
                 Session.set 'loading', yes
                 newLimit = Session.get('content_limit') + LIMIT_DELTA
                 Session.set 'content_limit', newLimit
-                console.log "newLimit: #{newLimit}"
+                ## console.log "newLimit: #{newLimit}"

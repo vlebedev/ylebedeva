@@ -1,10 +1,10 @@
-CONTENT_PAGE_TIMEOUT_DELAY = 1000*30
+CONTENT_PAGE_TIMEOUT_DELAY = 1000 * 30
 
-Template.content_page.helpers
+Template.content_page.helpers {
 
     content: () ->
         _id = Session.get 'current_content'
-        share.Content.findOne(_id)
+        share.Content.findOne _id
 
     moreLikes: () ->
         if @likes and @likes.count and @likes.data
@@ -16,6 +16,7 @@ Template.content_page.helpers
                     word = 'users'
                 return "+ <strong class='count'>#{more}</strong> more #{word}"
         return ''
+}
 
 Template.content_page.onRendered () ->
 
@@ -25,8 +26,8 @@ Template.content_page.onRendered () ->
             Session.set 'timer_id', null
         , CONTENT_PAGE_TIMEOUT_DELAY
     )
-
     old_id = Session.get 'timer_id'
+
     if old_id
         clearInterval old_id
 
@@ -40,20 +41,21 @@ Template.content_page.onRendered () ->
         Session.set 'prev_content', curr
 
 
-Template.content_page.events
+Template.content_page.events {
 
     'click .fullpic': (evt) ->
         evt.preventDefault()
         cid = Session.get 'current_content'
         share.Router.setMain 'matrix'
-        setTimeout( 
+        setTimeout(
             () ->
                 $(window).scrollTo('#' + "#{cid}", 300, { offset: { top: -278, left: 0 } })
             , 500
         )
+}
 
-Template.comment.helpers
+Template.comment.helpers {
 
     cr_time: () ->
         Date.create(parseFloat(@created_time) * 1000, { fromUTC: true }).relative()
-
+}

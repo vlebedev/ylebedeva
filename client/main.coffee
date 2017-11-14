@@ -7,13 +7,14 @@ Meteor.autorun ->
         console.log "requesting new limit: #{Session.get 'content_limit'}"
     Meteor.subscribe 'ylebedeva'
 
-share.YLRouter = Backbone.Router.extend
+share.YLRouter = Backbone.Router.extend {
 
-    routes:
+    routes: {
         'matrix': 'matrix'
         'photo/:id': 'photo'
         'enable': 'enable'
         'update': 'update'
+    }
 
     photo: (id) ->
         Session.set 'current_content', id
@@ -27,12 +28,16 @@ share.YLRouter = Backbone.Router.extend
         Session.set 'enable_signin', yes
         @navigate 'matrix', true
 
+    setMain: (page) ->
+        @navigate page, true
+
+###
     update: () ->
         Meteor.call 'update_db'
         @navigate 'matrix', true
+###
 
-    setMain: (page) ->
-        @navigate page, true
+}
 
 share.Router = new share.YLRouter
 

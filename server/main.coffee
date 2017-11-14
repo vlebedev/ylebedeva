@@ -108,13 +108,15 @@ Meteor.methods {
         updateContentCollection()
 
     'track': (event, data) ->
-        console.log "TRACK::#{event}: #{JSON.stringify data}"
+        ## console.log "TRACK::#{event}: #{JSON.stringify data}"
         mixpanel.track event, data
 }
 
 Meteor.startup ->
     Content._ensureIndex 'id', { unique: 1, sparse: 1 }
-
+    CONTENT_INITED = yes
+    
+###
     maxid = Max_Registered_Id.findOne({})
 
     if maxid
@@ -131,4 +133,4 @@ Meteor.startup ->
     if Meteor.settings.INIT_CONTENT
         console.log "INFO::APP_START: Updating Instagram User Content Collection..."
         updateContentCollection()
-        CONTENT_INITED = yes
+###
