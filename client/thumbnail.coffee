@@ -1,7 +1,7 @@
 Template.thumbnail.helpers {
 
     thumbnailUrl: () ->
-        @images.low_resolution.url
+        @thumbnail_resources[4].src
 }
 
 Template.thumbnail.events {
@@ -10,7 +10,7 @@ Template.thumbnail.events {
         evt.preventDefault()
         Meteor.call 'track', 'photo_expand', {
             id: @id
-            image_url: @images.low_resolution.url
+            image_url: @thumbnail_resources[4].src
         }
         share.Router.setMain "photo/#{@_id}"
 }

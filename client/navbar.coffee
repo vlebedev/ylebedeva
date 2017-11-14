@@ -15,7 +15,7 @@ Template.navbar.helpers {
         Session.get 'enable_signin'
 
     userpic: () ->
-        share.YLebedeva.findOne({})?.profile_picture
+        share.YLebedeva.findOne({})?.profile_pic_url
 
     current_content: () ->
         Session.get 'current_content'
@@ -53,6 +53,6 @@ Template.navbar.events {
             share.Content.update cid, { $inc: { mdfLikes: 1 } }
             Meteor.call 'track', 'like', {
                 id: content.id
-                image_url: content.images.low_resolution.url
+                image_url: content.thumbnail_resources[4].src
             }
 }

@@ -6,25 +6,27 @@
                 <div class="span10 offset1 content">
                     <div class="row">
                         <div class="main span10 offset0">
-                                <img class="media-object content-image fullpic" src="{{images.standard_resolution.url}}"/>
-                            <p class="caption">{{caption.text}}</p>
+                            <img class="media-object content-image fullpic" src="{{display_url}}"/>
+                            
+                            <p class="caption">{{caption}}</p>
+
                             <ul class="comments-list" id="comments">
-                                {{#if comments.count}}
                                     <li class="comments-count">
-                                        Comments: {{comments.count}} Likes: {{likes.count}}
+                                        Comments: {{edge_media_to_comment.count}} Likes: {{edge_media_preview_like.count}}
                                     </li>
-<!-- removed due to new Instagram API -->
+
+                                    <!-- disabled due to changes in instagram api 
                                     {{#each comments.data}}
                                         {{> comment}}
                                     {{/each}}
-<!-- -->
-                                {{/if}}
+                                    -->
                             </ul>
+
                         </div>
                     </div>
                 </div>
 
-<!--  removed due to new Instagram API -->
+                <!--  disabled due to changes in instagram API
                 {{#if likes.count}}
                     <div class="span10 offset1 likes">
                         <div class="row">
@@ -42,7 +44,7 @@
                         </div>
                     </div>
                 {{/if}}
-<!-- -->
+                -->
 
                 {{/with}}
         {{/if}}
@@ -50,7 +52,10 @@
     </div>
 </template>
 
+
+
 <template name="comment">
+    <!--  disabled due to changes in instagram API
     <li class="comment media">
 
         <img class="comment-avatar pull-left comment-img media-object" src="{{from.profile_picture}}" height="32" width="32" alt=""/>
@@ -70,4 +75,6 @@
             </p>
         </div>
     </li>
+    -->
 </template>
+

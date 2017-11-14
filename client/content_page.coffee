@@ -6,7 +6,11 @@ Template.content_page.helpers {
         _id = Session.get 'current_content'
         share.Content.findOne _id
 
+    caption: () ->
+        @edge_media_to_caption.edges[0].node.text
+
     moreLikes: () ->
+        ### disabled due to changes in instagram api
         if @likes and @likes.count and @likes.data
             more = @likes.count - @likes.data.length
             if more > 0
@@ -15,6 +19,7 @@ Template.content_page.helpers {
                 else
                     word = 'users'
                 return "+ <strong class='count'>#{more}</strong> more #{word}"
+        ###
         return ''
 }
 
@@ -57,5 +62,5 @@ Template.content_page.events {
 Template.comment.helpers {
 
     cr_time: () ->
-        Date.create(parseFloat(@created_time) * 1000, { fromUTC: true }).relative()
+        Date.create(parseFloat(@taken_at_timestamp) * 1000, { fromUTC: true }).relative()
 }
