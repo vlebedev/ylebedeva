@@ -5,7 +5,7 @@ import _ from 'underscore'
 Content = new Meteor.Collection 'content'
 YLebedeva = new Meteor.Collection 'ylebedeva'
 
-mixpanel = Mixpanel.init Meteor.settings.MIXPANEL_APIKEY, { debug: true }
+mixpanel = Mixpanel.init Meteor.settings.MIXPANEL_APIKEY, { debug: no }
 
 Meteor.publish 'content', (limit) ->
     Content.find { deleted: no }, { sort: { taken_at_timestamp: -1 }, limit: limit }
